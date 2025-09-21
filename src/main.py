@@ -4,7 +4,7 @@ from windy_scraper import capture_windy_screenshot
 
 def main():
     # Step 1: Ambil screenshot dari Windy
-    url = "https://www.windy.com/"  # bisa ganti ke layer forecast/hujan
+    url = "https://www.windy.com/-6.935/107.606/gfs?gfs,rh,-7.331,107.606,9,m:dtBai8v"  # bisa ganti ke layer forecast/hujan
     image_path = capture_windy_screenshot(url, save_path="windy.png")
 
     # Step 2: Crop & OCR untuk beberapa kolom
