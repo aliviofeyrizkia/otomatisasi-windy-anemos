@@ -1,31 +1,42 @@
 name: Test Windy Screenshot
 
 on:
-  workflow_dispatch:  # Bisa dijalankan manual dari tab Actions
+  workflow_dispatch:  # bisa jalan manual dari tab Actions
 
 jobs:
   capture:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install selenium pillow pytesseract pandas
 
-      - name: Run screenshot test
+      - name: Install browser (Chromium) and driver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser chromium-chromedriver
+          which chromium-browser
+          which chromedriver
+
+      - name: Run script
         run: |
           python src/main.py
 
-      - name: Upload screenshot as artifact
-        uses: actions/upload-artifact@v3
+      - name: List files
+        run: ls -lh
+
+      - name: Upload screenshot
+        uses: actions/upload-artifact@v4
         with:
           name: windy-screenshot
           path: windy.png
