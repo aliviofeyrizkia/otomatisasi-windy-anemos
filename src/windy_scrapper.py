@@ -1,19 +1,23 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import time
 
-def capture_windy_screenshot(url, save_path="windy.png"):
-    options = Options()
-    options.add_argument("--headless")        # jalankan tanpa buka jendela GUI
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=1280,720")
+def capture_windy_screenshot(url, output="windy.png"):
+    # Set Chrome Options untuk headless mode
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    
+    # Buka Chrome
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.set_window_size(1920, 1080)
 
-    driver = webdriver.Chrome(options=options)
+    # Buka halaman windy
     driver.get(url)
+    time.sleep(5)  # tunggu loading map
 
-    time.sleep(5)  # tunggu elemen Windy benar2 muncul
-
-    driver.save_screenshot(save_path)
+    # Simpan screenshot
+    driver.save_screenshot(output)
     driver.quit()
-    return save_path
+    print(f"✅ Screenshot saved as {output}")
